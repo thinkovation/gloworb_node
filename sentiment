@@ -1,0 +1,118 @@
+
+[
+    {
+        "id": "7b060be3.914da4",
+        "type": "inject",
+        "z": "1bfa360a.b05d2a",
+        "name": "red",
+        "topic": "",
+        "payload": "#ff0000",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 357,
+        "y": 126,
+        "wires": [
+            [
+                "d5259a3f.383d08"
+            ]
+        ]
+    },
+    {
+        "id": "e0c89862.656f78",
+        "type": "inject",
+        "z": "1bfa360a.b05d2a",
+        "name": "green",
+        "topic": "",
+        "payload": "#00ff00",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 357,
+        "y": 166,
+        "wires": [
+            [
+                "d5259a3f.383d08"
+            ]
+        ]
+    },
+    {
+        "id": "912443b8.7ae48",
+        "type": "inject",
+        "z": "1bfa360a.b05d2a",
+        "name": "blue",
+        "topic": "",
+        "payload": "#0000ff",
+        "payloadType": "str",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "x": 357,
+        "y": 206,
+        "wires": [
+            [
+                "d5259a3f.383d08"
+            ]
+        ]
+    },
+    {
+        "id": "d5259a3f.383d08",
+        "type": "mqtt out",
+        "z": "1bfa360a.b05d2a",
+        "name": "GlowOrb",
+        "topic": "<enter your topic name here>",
+        "qos": "0",
+        "retain": "true",
+        "broker": "",
+        "x": 673,
+        "y": 171,
+        "wires": []
+    },
+    {
+        "id": "ab72feab.aefa",
+        "type": "http in",
+        "z": "1bfa360a.b05d2a",
+        "name": "GlowOrbHttpListener",
+        "url": "/glow",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 126,
+        "y": 253,
+        "wires": [
+            [
+                "25e6b6b9.31170a"
+            ]
+        ]
+    },
+    {
+        "id": "79204f41.12786",
+        "type": "http response",
+        "z": "1bfa360a.b05d2a",
+        "name": "Confirmation",
+        "statusCode": "",
+        "headers": {},
+        "x": 657,
+        "y": 251,
+        "wires": []
+    },
+    {
+        "id": "25e6b6b9.31170a",
+        "type": "function",
+        "z": "1bfa360a.b05d2a",
+        "name": "Request Parser",
+        "func": "/*\nThis is a very simple parser that takes the colour\ncode and adds a \"#\" to it then sends it to the \nMQTT sender\n\nIt could be easily adapted to allow named colours\nto be sent\n\n*/\n\n// Assign the colour code to a variable\nvar colourcode = msg.payload.colourcode;\n// Log the colour code\nnode.log('The colour code is ' + colourcode);\n// modify the payload so it just contains the colour\n// code with a preceding \"#\"\nmsg.payload = \"#\" +colourcode;\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 387,
+        "y": 252,
+        "wires": [
+            [
+                "79204f41.12786",
+                "d5259a3f.383d08"
+            ]
+        ]
+    }
+]
